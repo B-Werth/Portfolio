@@ -11,7 +11,7 @@
     :pointer="{ intersectRecursive: true }"
     alpha="0"
   >
-    <Camera ref="camera" :position="{ z: 300, x: 1000 }" />
+    <Camera ref="camera" :position="{ z: 500, y: 250 }" />
 
     <Scene background="#5743BB">
       <PointLight :intensity="3" :position="{ x: 0, y: 400, z: 0 }">
