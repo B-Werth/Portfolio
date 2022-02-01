@@ -2,7 +2,7 @@
   <Renderer
     ref="renderer"
     :orbit-ctrl="{
-      autoRotate: false,
+      autoRotate: true,
       enableDamping: true,
       dampingFactor: 0.05,
     }"
@@ -20,9 +20,14 @@
       <PointLight :intensity="2" :position="{ x: 0, y: 0, z: 1000 }">
         <Sphere :radius="0" />
       </PointLight>
-      <Box ref="moin" :width="50" :height="30">
+      <Box :width="50" :height="30">
         <StandardMaterial :color="boxColor" />
       </Box>
+      <Sphere ref="jo" :radius="50" :position="{ x: 290, y: 0, z: 45 }">
+        <BasicMaterial>
+          <Texture src="../public/Textures/test.jpg" />
+        </BasicMaterial>
+      </Sphere>
       <Raycaster intersect-recursive />
       <GltfModel
         ref="tisch"
@@ -45,6 +50,11 @@
 
 <script>
 import {
+  Texture,
+  BasicMaterial,
+  PhongMaterial,
+  ShaderMaterial,
+  Plane,
   StandardMaterial,
   EffectComposer,
   RenderPass,
@@ -61,6 +71,11 @@ import {
 } from "troisjs";
 export default {
   components: {
+    Texture,
+    BasicMaterial,
+    PhongMaterial,
+    ShaderMaterial,
+    Plane,
     StandardMaterial,
     EffectComposer,
     RenderPass,
@@ -100,8 +115,6 @@ export default {
     };
   },
 
-  mounted() {
-    scene.fog = new Fog(0xa0a0a0, 200, 1000);
-  },
+  mounted() {},
 };
 </script>
