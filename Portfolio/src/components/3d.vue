@@ -6,7 +6,8 @@
       enableDamping: true,
       dampingFactor: 0.05,
     }"
-    resize="window"
+    width="800"
+    height="1000"
     antialias
     :pointer="{ intersectRecursive: true }"
     alpha="0"
