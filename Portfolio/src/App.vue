@@ -2,7 +2,7 @@
   <Renderer
     ref="renderer"
     :orbit-ctrl="{
-      autoRotate: true,
+      autoRotate: false,
       enableDamping: true,
       dampingFactor: 0.05,
     }"
@@ -13,21 +13,40 @@
   >
     <Camera ref="camera" :position="{ z: 500, y: 250 }" />
 
-    <Scene background="#5743BB">
+    <Scene background="#000000">
       <PointLight :intensity="3" :position="{ x: 0, y: 400, z: 0 }">
         <Sphere :radius="0" />
       </PointLight>
       <PointLight :intensity="2" :position="{ x: 0, y: 0, z: 1000 }">
         <Sphere :radius="0" />
       </PointLight>
-      <Box :width="50" :height="30">
-        <StandardMaterial :color="boxColor" />
-      </Box>
-      <Sphere ref="jo" :radius="50" :position="{ x: 290, y: 0, z: 45 }">
+      <Plane :width="75" :height="30" :position="{ x: 0, y: 100, z: -13 }">
+        <StandardMaterial :color="boxColor">
+          <Texture src="../public/Textures/vs.png" />
+        </StandardMaterial>
+      </Plane>
+      <Sphere
+        ref="mond"
+        :radius="50"
+        :scale="{ x: 10, y: 10, z: 10 }"
+        :position="{ x: 1000, y: 0, z: -1000 }"
+        :rotation="{ y: Math.PI / 4, z: Math.PI / 4 }"
+      >
         <BasicMaterial>
           <Texture src="../public/Textures/test.jpg" />
         </BasicMaterial>
       </Sphere>
+
+      <InstancedMesh
+        ref="imesh"
+        :count="NUM_INSTANCES"
+        :cast-shadow="true"
+        :receive-shadow="true"
+      >
+        <SphereGeometry :radius="1" />
+        <PhongMaterial />
+      </InstancedMesh>
+
       <Raycaster intersect-recursive />
       <GltfModel
         ref="tisch"
@@ -49,9 +68,13 @@
 </template>
 
 <script>
+import { Object3D, MathUtils } from "three";
+
 import {
+  InstancedMesh,
   Texture,
   BasicMaterial,
+  SphereGeometry,
   PhongMaterial,
   ShaderMaterial,
   Plane,
@@ -69,10 +92,13 @@ import {
   Renderer,
   Scene,
 } from "troisjs";
+
 export default {
   components: {
+    InstancedMesh,
     Texture,
     BasicMaterial,
+    SphereGeometry,
     PhongMaterial,
     ShaderMaterial,
     Plane,
@@ -94,10 +120,13 @@ export default {
     return {
       boxColor: "#ffffff",
       cameraToggle: true,
+      count: 500,
     };
   },
 
   methods: {
+    init() {},
+
     onPointerEvent() {
       console.log("hi");
       this.boxColor = "#5743BB";
@@ -107,14 +136,33 @@ export default {
   },
 
   setup() {
-    function onReady(e) {
-      console.log("render is ready", e);
-    }
     return {
-      onReady,
+      NUM_INSTANCES: 2000,
     };
   },
 
-  mounted() {},
+  mounted() {
+    // init instanced mesh matrix
+    const imesh = this.$refs.imesh.mesh;
+    const dummy = new Object3D();
+    const { randFloat: rnd, randFloatSpread: rndFS } = MathUtils;
+
+    const renderer = this.$refs.renderer;
+    const mond = this.$refs.mond.mesh;
+    const tisch = this.$refs.tisch.mesh;
+
+    renderer.onBeforeRender(() => {
+      mond.rotation.x += 0.003;
+    });
+
+    for (let i = 0; i < this.NUM_INSTANCES; i++) {
+      dummy.position.set(rndFS(2000), rndFS(2000), rndFS(2000));
+      const scale = rnd(0.2, 0.5);
+      dummy.scale.set(scale, scale, scale);
+      dummy.updateMatrix();
+      imesh.setMatrixAt(i, dummy.matrix);
+    }
+    imesh.instanceMatrix.needsUpdate = true;
+  },
 };
 </script>
