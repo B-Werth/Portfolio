@@ -18,7 +18,7 @@ export default async function Home() {
 }
 
 function Cube() {
-  const mesh = useRef(null);
+  const mesh = useRef<THREE.Mesh>(null!);
 
   useFrame((state, delta) => {
     mesh.current.rotation.x += delta * 0.1;
@@ -26,8 +26,8 @@ function Cube() {
 
   return (
     <mesh ref={mesh}>
-      <boxGeometry args={[3, 3, 3]}></boxGeometry>
-      <meshStandardMaterial color={"orange"}></meshStandardMaterial>
+      <boxGeometry args={[3, 3, 3]} />
+      <meshStandardMaterial color={"blue"} />
     </mesh>
   );
 }
