@@ -1,19 +1,30 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { api } from "~/trpc/server";
+
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Points, PointMaterial } from "@react-three/drei";
-import { buffer, random } from "maath";
+import { random } from "maath";
 
 export default async function Home() {
   return (
     <main className="h-screen bg-gray-900">
+      <Overlay></Overlay>
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Cube></Cube>
         <Stars />
         <OrbitControls enableZoom={false}></OrbitControls>
       </Canvas>
     </main>
+  );
+}
+
+function Overlay() {
+  return (
+    <div>
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+        Hi, my name is Bastian.
+      </h1>
+    </div>
   );
 }
 
@@ -32,10 +43,10 @@ function Cube() {
   );
 }
 
-function Stars(props) {
+function Stars(props: any) {
   const ref = useRef<THREE.Mesh>(null!);
   const [sphere] = useState(() =>
-    random.inSphere(new Float32Array(5000), { radius: 1.5 }),
+    random.inSphere(new Float32Array(1500), { radius: 1.5 }),
   );
   useFrame((state, delta) => {
     ref.current.rotation.x -= delta / 10;
