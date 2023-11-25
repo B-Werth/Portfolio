@@ -1,18 +1,29 @@
 "use client";
 import React, { useRef, useState } from "react";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Points, PointMaterial } from "@react-three/drei";
 import { random } from "maath";
 
-export default async function Home() {
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+export default function Home() {
+  const myModel = useLoader(GLTFLoader, "/rocket.glb");
+
   return (
     <main className="h-screen bg-gray-900">
-      <Overlay></Overlay>
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Cube></Cube>
         <Stars />
         <OrbitControls enableZoom={false}></OrbitControls>
+        <pointLight
+          position={[-10, -10, -10]}
+          color="#48cc90"
+          intensity={5000}
+        />
+        <pointLight position={[10, 10, 10]} intensity={5000} />
+
+        <primitive object={myModel.scene}></primitive>
       </Canvas>
     </main>
   );
