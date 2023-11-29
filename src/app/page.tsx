@@ -9,6 +9,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import Navbar from "./_components/navbar";
 
+import About_me from "./_components/about_me";
+
 export default function Home() {
   const myModel = useLoader(GLTFLoader, "rocket.glb");
 
@@ -17,7 +19,9 @@ export default function Home() {
       <div>
         <Navbar></Navbar>
       </div>
-      <div>jojoj</div>
+      <div className="h-screen ">
+        <About_me></About_me>
+      </div>
       <Canvas camera={{ position: [0, 0, 2] }}>
         <Stars scale={[2, 2, 2]} />
         <OrbitControls enableZoom={true}></OrbitControls>

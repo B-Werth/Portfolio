@@ -12,6 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@prisma/client": "^5.1.1",
     "@react-three/drei": "^9.88.17",
     "@react-three/fiber": "^8.15.11",
@@ -22,7 +23,9 @@
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
     "@types/three": "^0.158.3",
+    "framer-motion": "^10.16.5",
     "maath": "^0.10.4",
+    "motion": "^10.16.4",
     "next": "^14.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
