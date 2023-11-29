@@ -14,7 +14,9 @@ import About_me from "./_components/about_me";
 export default function Home() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const myModel = useLoader(GLTFLoader, "rocket.glb");
+  const myModel = useLoader(GLTFLoader, "/rocket.glb");
+
+  const canvasRef = useRef<HTMLCanvasElement | undefined>(undefined);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +41,7 @@ export default function Home() {
             <Stars scale={[2, 2, 2]} />
             <OrbitControls enableZoom={false}></OrbitControls>
             <pointLight
+              rotation={[12, 12, 12]}
               position={[-10, -10, -10]}
               color="grey"
               intensity={5000}
@@ -46,6 +49,7 @@ export default function Home() {
             <pointLight position={[10, 10, 10]} intensity={5000} />
 
             <primitive
+              rotation={[0, 60, 0]}
               position={[2, scrollPosition * 0.01, 0]}
               object={myModel.scene}
             ></primitive>
@@ -54,6 +58,7 @@ export default function Home() {
       </div>
       <div className="flex h-screen bg-gray-900">
         <About_me></About_me>
+        <div>{}</div>
       </div>
     </main>
   );
