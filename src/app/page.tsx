@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState, useEffect } from "react";
 
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Points, PointMaterial } from "@react-three/drei";
@@ -12,24 +12,49 @@ import Navbar from "./_components/navbar";
 import About_me from "./_components/about_me";
 
 export default function Home() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   const myModel = useLoader(GLTFLoader, "rocket.glb");
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <main className="flex h-screen bg-gray-900">
+    <main>
       <div>
         <Navbar></Navbar>
       </div>
-      <div className="h-screen ">
+      <div className="flex h-screen bg-black">
+        <About_me></About_me>
+        <div className="fixed inset-0 z-[20] h-auto w-full">
+          <Canvas camera={{ position: [0, 0, 2] }}>
+            <Stars scale={[2, 2, 2]} />
+            <OrbitControls enableZoom={false}></OrbitControls>
+            <pointLight
+              position={[-10, -10, -10]}
+              color="grey"
+              intensity={5000}
+            />
+            <pointLight position={[10, 10, 10]} intensity={5000} />
+
+            <primitive
+              position={[2, scrollPosition * 0.01, 0]}
+              object={myModel.scene}
+            ></primitive>
+          </Canvas>
+        </div>
+      </div>
+      <div className="flex h-screen bg-gray-900">
         <About_me></About_me>
       </div>
-      <Canvas camera={{ position: [0, 0, 2] }}>
-        <Stars scale={[2, 2, 2]} />
-        <OrbitControls enableZoom={true}></OrbitControls>
-        <pointLight position={[-10, -10, -10]} color="white" intensity={5000} />
-        <pointLight position={[10, 10, 10]} intensity={5000} />
-
-        <primitive position={[0, 0, 0]} object={myModel.scene}></primitive>
-      </Canvas>
     </main>
   );
 }

@@ -1,7 +1,31 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
+import {
+  Link,
+  Button,
+  Element,
+  Events,
+  animateScroll as scroll,
+  scrollSpy,
+} from "react-scroll";
 
 const Navbar = () => {
+  const scrollToTop = () => {
+    scroll.scrollToTop();
+  };
+
+  const scrollToBottom = () => {
+    scroll.scrollToBottom();
+  };
+
+  const scrollTo = () => {
+    scroll.scrollTo(1000); // Scrolling to 100px from the top of the page.
+  };
+
+  const scrollMore = () => {
+    scroll.scrollMore(100); // Scrolling an additional 100px from the current scroll position.
+  };
+
   return (
     <div className="fixed top-0 z-50 h-[65px] w-full bg-[#03001417] px-10 shadow-lg shadow-[#2A0E61]/50 backdrop-blur-md">
       <div className="m-auto flex h-full w-full flex-row items-center justify-between px-[10px]">
@@ -22,7 +46,7 @@ const Navbar = () => {
             <a href="#skills" className="cursor-pointer">
               Skills
             </a>
-            <a href="#projects" className="cursor-pointer">
+            <a onClick={scrollTo} href="#projects" className="cursor-pointer">
               Projects
             </a>
           </div>
