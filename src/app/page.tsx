@@ -7,23 +7,24 @@ import { random } from "maath";
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
+import Navbar from "./_components/navbar";
+
 export default function Home() {
-  const myModel = useLoader(GLTFLoader, "/rocket.glb");
+  const myModel = useLoader(GLTFLoader, "rocket.glb");
 
   return (
-    <main className="h-screen bg-gray-900">
-      <Canvas camera={{ position: [0, 0, 1] }}>
-        <Cube></Cube>
-        <Stars />
-        <OrbitControls enableZoom={false}></OrbitControls>
-        <pointLight
-          position={[-10, -10, -10]}
-          color="#48cc90"
-          intensity={5000}
-        />
+    <main className="flex h-screen bg-gray-900">
+      <div>
+        <Navbar></Navbar>
+      </div>
+      <div>jojoj</div>
+      <Canvas camera={{ position: [0, 0, 2] }}>
+        <Stars scale={[2, 2, 2]} />
+        <OrbitControls enableZoom={true}></OrbitControls>
+        <pointLight position={[-10, -10, -10]} color="white" intensity={5000} />
         <pointLight position={[10, 10, 10]} intensity={5000} />
 
-        <primitive object={myModel.scene}></primitive>
+        <primitive position={[0, 0, 0]} object={myModel.scene}></primitive>
       </Canvas>
     </main>
   );
@@ -47,7 +48,7 @@ function Cube() {
 function Stars(props: any) {
   const ref = useRef<THREE.Mesh>(null!);
   const [sphere] = useState(() =>
-    random.inSphere(new Float32Array(1500), { radius: 1.5 }),
+    random.inSphere(new Float32Array(5000), { radius: 5 }),
   );
   useFrame((state, delta) => {
     ref.current.rotation.x -= delta / 10;
@@ -65,7 +66,7 @@ function Stars(props: any) {
         <PointMaterial
           transparent
           color="#ffa0e0"
-          size={0.005}
+          size={0.01}
           sizeAttenuation={true}
           depthWrite={false}
         />
