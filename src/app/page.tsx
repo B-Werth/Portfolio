@@ -73,7 +73,7 @@ function Cube() {
 
   return (
     <mesh ref={mesh}>
-      <boxGeometry args={[3, 3, 3]} />
+      <boxGeometry args={[3, 3, 2]} />
       <meshStandardMaterial color={"blue"} />
     </mesh>
   );
